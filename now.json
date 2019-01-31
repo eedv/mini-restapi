@@ -1,0 +1,10 @@
+{
+	"version": 2,
+	"env": {
+		"DB_NAME": "@db_name",
+		"DB_USER": "@db_user",
+		"DB_PWD": "@db_pwd",
+		"DB_CONNECTION_URI": "@db_connection_uri"
+	},
+	"builds": [{ "src": "src/routes/**/*.js", "use": "@now/node" }]
+}
