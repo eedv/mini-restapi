@@ -2,12 +2,12 @@
   "name": "mini-restapi",
   "version": "1.0.0",
   "description": "mini api to query/store products and orders",
-  "main": "index.js",
+  "main": "routes/products/index.js",
   "author": "eedv",
-  "license": "Unlicenc",
+  "license": "Unlicense",
   "private": false,
   "dependencies": {
-    "expressjs": "^1.0.1",
+    "express": "^4.16.4",
     "mongodb": "^3.1.13"
   }
 }
