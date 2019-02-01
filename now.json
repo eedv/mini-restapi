@@ -1,6 +1,7 @@
 {
 	"version": 2,
 	"alias": ["justoolapi"],
+	"name": "justoolapi",
 	"env": {
 		"DB_NAME": "@db_name",
 		"DB_USER": "@db_user",
