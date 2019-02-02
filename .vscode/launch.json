@@ -8,10 +8,8 @@
 			"type": "node",
 			"request": "launch",
 			"name": "Launch Program",
-			"program": "${workspaceFolder}\\routes\\products\\index.js",
-			"env": {
-				"DB_CONNECTION_URI": "mongodb://justool:pq45PuuLw7rSJUT@ds042128.mlab.com:42128/justooldb"
-			}
+			"program": "${workspaceFolder}//routes//products//index.js",
+			"envFile": "${workspaceFolder}/.env"
 		}
 	]
 }

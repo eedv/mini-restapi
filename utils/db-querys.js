@@ -1,16 +1,13 @@
-const Database = require('./db-connection');
-let database;
-Database.connect().then(function(db) {
-	database = db;
-});
-
-const getAll = async (resType) => {
-	const collection = database.collection(resType);
-	let docs = await collection.find({"name": "ACEITE ESENCIAL DE MENTA 10 ML -ANF"});
-	return await docs.toArray();
+const db = require('./db-connection');
+const search = async (query) => {
+	let docs = await db.products.findAsCursor(
+		{$text: { $search: query }},
+		{score: {$meta: "textScore"}}
+	).sort( { score: { $meta: "textScore" } } ).toArray();
+	return docs;
 };
 
 
 module.exports = {
-	getAll
+	search
 }
