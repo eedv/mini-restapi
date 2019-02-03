@@ -1,6 +1,6 @@
 const app = require('../../utils/app');
 const dbQuerys = require('../../utils/db-querys');
-app.get('products', async (req, res) => {
+app.get('/products', async (req, res) => {
 	try {
 		let productList;
 		if(req.query.query) {
