@@ -1,6 +1,10 @@
 const app = require('../../utils/app');
 const dbQuerys = require('../../utils/db-querys');
 app.get('/products', async (req, res) => {
+	res.header({
+		'Access-Control-Allow-Origin': '*',
+		'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'
+	})
 	try {
 		let productList;
 		if(req.query.query) {
