@@ -8,6 +8,6 @@ app.options('*', function(req, res) {
 	});
 	res.end();
 });
-app.listen(process.env.PORT || 8501);
+app.listen();
 console.log('Server started')
 module.exports = app;

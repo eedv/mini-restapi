@@ -8,8 +8,6 @@
 		"DB_PWD": "@db_pwd",
 		"DB_CONNECTION_URI": "@db_connection_uri"
 	},
-	"builds": [{ "src": "routes/**/*.js", "use": "@now/node" }],
-	"routes": [
-		{ "src": "/(.*)", "dest": "/routes/$1" }
-	]
+	"builds": [{ "src": "src/products/index.js", "use": "@now/node" }],
+	"routes": [{"src": "/products", "dest": "/src/products"}]	
 }

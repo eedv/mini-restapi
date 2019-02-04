@@ -1,14 +1,14 @@
 const db = require('./db-connection');
-const search = async (query) => {
-	let docs = await db.products.findAsCursor(
+const search = async (collectionName, query) => {
+	let docs = await db[collectionName].findAsCursor(
 		{$text: { $search: query }},
 		{score: {$meta: "textScore"}}
 	).sort( { score: { $meta: "textScore" } } ).toArray();
 	return docs;
 };
-const getAll = async () => {
-	return await db.products.find({});
-	
+
+const getAll = async (collectionName) => {
+	return await db[collectionName].find({});
 }
 
 module.exports = {
