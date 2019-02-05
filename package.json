@@ -2,13 +2,13 @@
   "name": "mini-restapi",
   "version": "1.0.0",
   "description": "mini api to query/store products and orders",
-  "main": "routes/products/index.js",
+  "main": "products/index.js",
   "author": "eedv",
   "license": "Unlicense",
   "private": false,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node routes/products/index.js"
+    "start": "node products/index.js"
   },
   "dependencies": {
     "express": "^4.16.4",
