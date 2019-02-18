@@ -1,18 +1,23 @@
 const app = require('../app');
 const dbQuerys = require('../db-querys');
-app.get('*', async (req, res) => {
+const utils = require('../utils');
+
+app.get('/products', async (req, res) => {
 	res.header({
 		'Access-Control-Allow-Origin': '*',
 		'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'
 	})
 	try {
-		let productList;
-		if(req.query.query) {
-			productList = await dbQuerys.search('products', req.query.query);
+		let query = {};
+		if(req.query) {
+			query.period = Number(req.query.period);
+			query.week = Number(req.query.week);
 		}
 		else {
-			productList = await dbQuerys.getAll('products');
+			query.period = utils.getMonth();
+			query.week = utils.getWeek();
 		}
+		let productList = await dbQuerys.getPeriod(query);
 		res.json(productList);
 	} catch (err) {
 		console.log(err);

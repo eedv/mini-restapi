@@ -6,12 +6,15 @@ const search = async (collectionName, query) => {
 	).sort( { score: { $meta: "textScore" } } ).toArray();
 	return docs;
 };
-
+const getPeriod = async ({period, week}) => {
+	return await db.products.findOne({period, week})
+}
 const getAll = async (collectionName) => {
 	return await db[collectionName].find({});
 }
 
 module.exports = {
 	search,
+	getPeriod,
 	getAll
 }
