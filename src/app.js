@@ -9,5 +9,5 @@ app.options('*', function(req, res) {
 	res.end();
 });
 app.listen(process.env.PORT || 8501);
-console.log('Server started')
+console.log('Server started');
 module.exports = app;

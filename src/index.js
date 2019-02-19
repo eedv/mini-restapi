@@ -1,6 +1,6 @@
-const app = require('../app');
-const dbQuerys = require('../db-querys');
-const utils = require('../utils');
+const app = require('./app');
+const dbQuerys = require('./db-querys');
+const utils = require('./utils');
 
 app.get('/products', async (req, res) => {
 	res.header({
