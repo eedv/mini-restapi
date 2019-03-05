@@ -11,7 +11,8 @@ const getPeriod = async ({period, week}) => {
 	return await db.products.findOne({period, week})
 }
 const getLastPeriod = async () => {
-	return await db.products.findOne({_id:-1});
+	let matchPeriod = await db.products.findAsCursor({}).sort({_id:-1}).limit(1).toArray();
+	return matchPeriod[0];
 }
 const getAll = async (collectionName) => {
 	return await db[collectionName].find({});
