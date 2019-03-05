@@ -9,11 +9,16 @@ app.get('/products', async (req, res) => {
 		'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'
 	})
 	try {
-		let query = {};
-		query.period = Number(req.query.period || utils.getMonth());
-		query.week = Number(req.query.week || utils.getWeek());
+		let query
+		if(req.query.period) {
+			query = {};
+			query.period = Number(req.query.period || utils.getMonth());
+			query.week = Number(req.query.week || utils.getWeek());
+		}
 
-		let productList = await dbQuerys.getPeriod(query);
+		let productList = query
+			? await dbQuerys.getPeriod(query)
+			: await dbQuerys.getLastPeriod();
 		res.json(productList);
 	} catch (err) {
 		console.log(err);

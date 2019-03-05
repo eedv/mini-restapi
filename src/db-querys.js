@@ -10,6 +10,9 @@ const search = async (collectionName, query) => {
 const getPeriod = async ({period, week}) => {
 	return await db.products.findOne({period, week})
 }
+const getLastPeriod = async () => {
+	return await db.products.findOne({_id:-1});
+}
 const getAll = async (collectionName) => {
 	return await db[collectionName].find({});
 }
@@ -32,5 +35,7 @@ module.exports = {
 	getPeriod,
 	getAll,
 	getOrders,
-	createOrder
+	createOrder,
+	getLastPeriod,
+	getAll
 }
