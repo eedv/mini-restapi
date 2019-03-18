@@ -12,13 +12,14 @@ app.get('/products', async (req, res) => {
 		let query
 		if(req.query.period) {
 			query = {};
-			query.period = Number(req.query.period || utils.getMonth());
+			query.period = Number(req.query.period || utils.getFourWeekMonth());
 			query.week = Number(req.query.week || utils.getWeek());
 		}
 
 		let productList = query
 			? await dbQuerys.getPeriod(query)
 			: await dbQuerys.getLastPeriod();
+
 		res.json(productList);
 	} catch (err) {
 		console.log(err);
