@@ -8,6 +8,7 @@ app.options('*', function(req, res) {
 	});
 	res.end();
 });
+app.use(bodyParser.json());
 app.listen(process.env.PORT || 8501);
 console.log('Server started');
 module.exports = app;
