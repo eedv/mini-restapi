@@ -12,6 +12,7 @@ app.get('/products', async (req, res) => {
 		let query
 		if(req.query.period) {
 			query = {};
+			query.year = Number(req.query.year || new Date().getFullYear());
 			query.period = Number(req.query.period || utils.getFourWeekMonth());
 			query.week = Number(req.query.week || utils.getWeek());
 		}
