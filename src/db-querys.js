@@ -1,5 +1,6 @@
 const db = require('./db-connection');
 const utils = require('./utils');
+const customError = require('./custom-error')
 const search = async (collectionName, query) => {
 	let docs = await db[collectionName].findAsCursor(
 		{$text: { $search: query }},
@@ -20,17 +21,39 @@ const getAll = async (collectionName) => {
 const getOrders = async (params) => {
 	return await db.orders.find(params);
 }
+
+const orderExists = async (query) => {
+	let canInsert = await Promise.all([
+		db.orders.findOne(query, {_id: 1}),
+		db.products.findOne(query, {_id: 1})
+	])
+	return canInsert.every((doc) => !!doc);
+}
 const createOrder = async () => {
+	const year = new Date().getFullYear();
+	const period = utils.getFourWeekMonth();
+	const week = utils.getWeek();
 	const order = {
 		name: 'New order',
+		periodWeek: `${year}-${period}`.padStart(2, '0') + '-' + `${week}`.padStart(2, '0'),
 		creationDate: new Date(),
-		year: new Date().getFullYear(),
-		period: utils.getMonth(),
-		week: utils.getWeek(),
+		year: year,
+		period: period,
+		week: week,
 		products: []
 	}
-	return await db.orders.insertOne(order)
+	let canInsert = await orderExists({ year, period, week});
+	if(canInsert) {
+		return await db.orders.insertOne(order)
+	}
+	else {
+		throw new customError('Order already exists or there is not data for requested week', 20);
+	}
 }
+const updateOrder = async (queryParams, products) => {
+	return await db.orders.update(queryParams, {$set: {products: products}});
+};
+
 module.exports = {
 	search,
 	getPeriod,
@@ -38,5 +61,6 @@ module.exports = {
 	getOrders,
 	createOrder,
 	getLastPeriod,
-	getAll
+	getAll,
+	updateOrder
 }

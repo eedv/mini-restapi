@@ -54,6 +54,19 @@ app.get('/orders/:year/:period/:week', async (req, res) => {
 		res.status(404).send(err);
 	}
 });
+app.patch('/orders/:year/:period/:week', async (req, res) => {
+	res.header({
+		'Access-Control-Allow-Origin': '*',
+		'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'
+	})
+	try {
+		let orders = await dbQuerys.updateOrder(req.params, req.body.products);
+		res.json(orders);
+	} catch (err) {
+		console.log(err);
+		res.status(404).send(err);
+	}
+});
 app.post('/orders/', async (req, res) => {
 	res.header({
 		'Access-Control-Allow-Origin': '*',
@@ -64,6 +77,11 @@ app.post('/orders/', async (req, res) => {
 		res.json(order);
 	} catch (err) {
 		console.log(err);
-		res.status(404).send(err);
+		if(err.code == 20) {
+			res.status(412).send(err);
+		}
+		else {
+			res.status(404).send(err);
+		}
 	}
 });
