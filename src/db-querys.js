@@ -32,12 +32,13 @@ const createOrder = async () => {
 	const period = utils.getFourWeekMonth();
 	const week = utils.getWeek();
 	const order = {
-		name: 'New order',
+		name: 'Nuevo Pedido',
 		periodWeek: `${year}-${period}`.padStart(2, '0') + '-' + `${week}`.padStart(2, '0'),
 		creationDate: new Date(),
 		year: year,
 		period: period,
 		week: week,
+		config: await getConfig(),
 		products: []
 	}
 	let canInsert = await canInsertNewOrder({ year, period, week});
