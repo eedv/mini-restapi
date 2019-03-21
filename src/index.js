@@ -85,3 +85,29 @@ app.post('/orders/', async (req, res) => {
 		}
 	}
 });
+app.get('/config', async (req, res) => {
+	res.header({
+		'Access-Control-Allow-Origin': '*',
+		'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'
+	})
+	try {
+		let config = await dbQuerys.getConfig();
+		res.json(config);
+	} catch (err) {
+		console.log(err);
+		res.status(404).send(err);
+	}
+});
+app.put('/config', async (req, res) => {
+	res.header({
+		'Access-Control-Allow-Origin': '*',
+		'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'
+	})
+	try {
+		let config = await dbQuerys.saveConfig(req.body);
+		res.json(config);
+	} catch (err) {
+		console.log(err);
+		res.status(404).send(err);
+	}
+});

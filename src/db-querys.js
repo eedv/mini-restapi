@@ -54,6 +54,12 @@ const updateOrder = async (queryParams, products) => {
 	return await db.orders.update(queryParams, {$set: {products: products}});
 };
 
+const getConfig = async () => {
+	return await db.config.findOne({});
+}
+const saveConfig = async (config) => {
+	return await db.config.update({}, {$set: config}, {upsert: true});
+}
 module.exports = {
 	search,
 	getPeriod,
@@ -62,5 +68,7 @@ module.exports = {
 	createOrder,
 	getLastPeriod,
 	getAll,
-	updateOrder
+	updateOrder,
+	getConfig,
+	saveConfig
 }
