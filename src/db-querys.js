@@ -22,12 +22,10 @@ const getOrders = async (params) => {
 	return await db.orders.find(params);
 }
 
-const orderExists = async (query) => {
-	let canInsert = await Promise.all([
-		db.orders.findOne(query, {_id: 1}),
-		db.products.findOne(query, {_id: 1})
-	])
-	return canInsert.every((doc) => !!doc);
+const canInsertNewOrder = async (query) => {
+	let order = await db.orders.findOne(query, {_id: 1});
+	let periodProducts = await db.products.findOne(query, {_id: 1});
+	return !order && periodProducts;
 }
 const createOrder = async () => {
 	const year = new Date().getFullYear();
@@ -42,7 +40,7 @@ const createOrder = async () => {
 		week: week,
 		products: []
 	}
-	let canInsert = await orderExists({ year, period, week});
+	let canInsert = await canInsertNewOrder({ year, period, week});
 	if(canInsert) {
 		return await db.orders.insertOne(order)
 	}
