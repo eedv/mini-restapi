@@ -43,7 +43,8 @@ const createOrder = async () => {
 	}
 	let canInsert = await canInsertNewOrder({ year, period, week});
 	if(canInsert) {
-		return await db.orders.insertOne(order)
+		await db.orders.insertOne(order);
+		return order;
 	}
 	else {
 		throw new customError('Order already exists or there is not data for requested week', 20);
