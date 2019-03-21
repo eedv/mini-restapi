@@ -60,6 +60,7 @@ app.patch('/orders/:year/:period/:week', async (req, res) => {
 		'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'
 	})
 	try {
+		_.forEach(req.params, ((value, key) => req.params[key] = Number(value)));
 		let orders = await dbQuerys.updateOrder(req.params, req.body.products);
 		res.json(orders);
 	} catch (err) {
