@@ -28,26 +28,25 @@ const canInsertNewOrder = async (query) => {
 	return !order && periodProducts;
 }
 const createOrder = async () => {
-	const year = new Date().getFullYear();
-	const period = utils.getFourWeekMonth();
-	const week = utils.getWeek();
-	const order = {
-		name: 'Nuevo Pedido',
-		periodWeek: `${year}-${period}`.padStart(2, '0') + '-' + `${week}`.padStart(2, '0'),
-		creationDate: new Date(),
-		year: year,
-		period: period,
-		week: week,
-		config: await getConfig(),
-		products: []
-	}
-	let canInsert = await canInsertNewOrder({ year, period, week});
+	const currentPeriod = await getLastPeriod();
+	const {year, period, week} = currentPeriod;
+	const canInsert = !(await db.orders.findOne({ year, period, week}));
 	if(canInsert) {
+		const order = {
+			name: 'Nuevo Pedido',
+			periodWeek: `${year}-${period}`.padStart(2, '0') + '-' + `${week}`.padStart(2, '0'),
+			creationDate: new Date(),
+			year: year,
+			period: period,
+			week: week,
+			config: await getConfig(),
+			products: []
+		}
 		await db.orders.insertOne(order);
 		return order;
 	}
 	else {
-		throw new customError('Order already exists or there is not data for requested week', 20);
+		throw new customError('Order already exists for this period', 20);
 	}
 }
 const updateOrder = async (queryParams, products) => {
