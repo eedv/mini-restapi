@@ -1,5 +1,5 @@
 module.exports = {
-	getWeek(d = new Date()) {
+	getYearWeek(d = new Date()) {
 		// Copy date so don't modify original
 		d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
 		// Set to nearest Thursday: current date + 4 - current day number
@@ -11,9 +11,8 @@ module.exports = {
 		var weekNo = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
 		// Return array of year and week number
 		return weekNo;
-
 	},
-	getFourWeekMonth() {
-		return Math.ceil(this.getWeek() / 4);
+	getFourWeekMonth(d = new Date()) {
+		return Math.ceil(this.getWeek(d) / 4);
 	}
 }
