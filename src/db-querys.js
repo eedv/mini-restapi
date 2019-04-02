@@ -27,6 +27,10 @@ const canInsertNewOrder = async (query) => {
 	let periodProducts = await db.products.findOne(query, {_id: 1});
 	return !order && periodProducts;
 }
+const getWeekOfPeriod = (period, week) => {
+	const weeksPerMonth = 4;
+	return Math.abs((period * weeksPerMonth) - (week + weeksPerMonth));
+};
 const createOrder = async () => {
 	const currentPeriod = await getLastPeriod();
 	const {year, period, week} = currentPeriod;
@@ -39,6 +43,7 @@ const createOrder = async () => {
 			year: year,
 			period: period,
 			week: week,
+			weekOfPeriod: getWeekOfPeriod(period, week),
 			config: await getConfig(),
 			products: []
 		}
