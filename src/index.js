@@ -61,7 +61,7 @@ app.patch('/orders/:year/:period/:week', async (req, res) => {
 	})
 	try {
 		_.forEach(req.params, ((value, key) => req.params[key] = Number(value)));
-		let orders = await dbQuerys.updateOrder(req.params, req.body.products);
+		let orders = await dbQuerys.updateOrder(req.params, req.body);
 		res.json(orders);
 	} catch (err) {
 		console.log(err);

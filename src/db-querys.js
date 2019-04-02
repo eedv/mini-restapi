@@ -54,8 +54,8 @@ const createOrder = async () => {
 		throw new customError('Order already exists for this period', 20);
 	}
 }
-const updateOrder = async (queryParams, products) => {
-	return await db.orders.update(queryParams, {$set: {products: products}});
+const updateOrder = async (queryParams, updateData) => {
+	return await db.orders.update(queryParams, {$set: updateData});
 };
 
 const getConfig = async () => {
