@@ -4,10 +4,6 @@ const utils = require('./utils');
 const _ = require('lodash');
 
 app.get('/products', async (req, res) => {
-	res.header({
-		'Access-Control-Allow-Origin': '*',
-		'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'
-	})
 	try {
 		let query
 		if(req.query.period) {
@@ -28,10 +24,7 @@ app.get('/products', async (req, res) => {
 	}
 });
 app.get('/orders', async (req, res) => {
-	res.header({
-		'Access-Control-Allow-Origin': '*',
-		'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'
-	})
+
 	try {
 		let orders = await dbQuerys.getAll('orders');
 		res.json(orders);
@@ -41,10 +34,6 @@ app.get('/orders', async (req, res) => {
 	}
 });
 app.get('/orders/:year/:period/:week', async (req, res) => {
-	res.header({
-		'Access-Control-Allow-Origin': '*',
-		'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'
-	})
 	try {
 		_.forEach(req.params, ((value, key) => req.params[key] = Number(value)));
 		let orders = await dbQuerys.getOrders(req.params);
@@ -55,10 +44,6 @@ app.get('/orders/:year/:period/:week', async (req, res) => {
 	}
 });
 app.patch('/orders/:year/:period/:week', async (req, res) => {
-	res.header({
-		'Access-Control-Allow-Origin': '*',
-		'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'
-	})
 	try {
 		_.forEach(req.params, ((value, key) => req.params[key] = Number(value)));
 		let orders = await dbQuerys.updateOrder(req.params, req.body);
@@ -69,10 +54,6 @@ app.patch('/orders/:year/:period/:week', async (req, res) => {
 	}
 });
 app.post('/orders/', async (req, res) => {
-	res.header({
-		'Access-Control-Allow-Origin': '*',
-		'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'
-	})
 	try {
 		let order = await dbQuerys.createOrder();
 		res.json(order);
@@ -87,10 +68,6 @@ app.post('/orders/', async (req, res) => {
 	}
 });
 app.get('/config', async (req, res) => {
-	res.header({
-		'Access-Control-Allow-Origin': '*',
-		'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'
-	})
 	try {
 		let config = await dbQuerys.getConfig();
 		res.json(config);
@@ -100,10 +77,6 @@ app.get('/config', async (req, res) => {
 	}
 });
 app.put('/config', async (req, res) => {
-	res.header({
-		'Access-Control-Allow-Origin': '*',
-		'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'
-	})
 	try {
 		let config = await dbQuerys.saveConfig(req.body);
 		res.json(config);
