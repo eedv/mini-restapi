@@ -8,8 +8,8 @@ const search = async (collectionName, query) => {
 	).sort( { score: { $meta: "textScore" } } ).toArray();
 	return docs;
 };
-const getPeriod = async ({period, week}) => {
-	return await db.products.findOne({period, week})
+const getPeriod = async (query) => {
+	return await db.products.findOne(query)
 }
 const getLastPeriod = async () => {
 	let matchPeriod = await db.products.findAsCursor({}).sort({_id:-1}).limit(1).toArray();
@@ -38,7 +38,7 @@ const createOrder = async () => {
 	if(canInsert) {
 		const order = {
 			name: 'Nuevo Pedido',
-			periodWeek: `${year}-${period}`.padStart(2, '0') + '-' + `${week}`.padStart(2, '0'),
+			id: `${year}-${period}-${week}`,
 			creationDate: new Date(),
 			year: year,
 			period: period,
@@ -54,8 +54,8 @@ const createOrder = async () => {
 		throw new customError('Order already exists for this period', 20);
 	}
 }
-const updateOrder = async (queryParams, updateData) => {
-	return await db.orders.update(queryParams, {$set: updateData});
+const updateOrder = async (orderId, updateData) => {
+	return await db.orders.update({id: orderId}, {$set: updateData});
 };
 
 const getConfig = async () => {

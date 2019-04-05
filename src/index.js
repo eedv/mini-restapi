@@ -23,37 +23,50 @@ app.get('/products', async (req, res) => {
 		res.status(404).send(err);
 	}
 });
-app.get('/orders', async (req, res) => {
+app.get('/products/:priceListId', async (req, res) => {
+	try {
+		const query = {id: req.params.priceListId}
+		let productList = await dbQuerys.getPeriod(query)
 
+		res.json(productList);
+	} catch (err) {
+		console.log(err);
+		res.status(404).send(err);
+	}
+});
+
+app.get('/orders', async (req, res) => {
 	try {
-		let orders = await dbQuerys.getAll('orders');
+		let query = {};
+		_.forEach(req.query, ((value, key) => query[key] = Number(value)));
+		let orders = await dbQuerys.getOrders(query);
+		res.json(orders);
+	} catch (err) {
+		console.log(err);
+		res.status(404).send(err);
+
+	}
+});
+app.get('/orders/:orderId', async (req, res) => {
+	try {
+		const query = {id: req.params.orderId}
+		let orders = await dbQuerys.getOrders(query);
 		res.json(orders);
 	} catch (err) {
 		console.log(err);
 		res.status(404).send(err);
 	}
 });
-app.get('/orders/:year/:period/:week', async (req, res) => {
+app.patch('/orders/:orderId', async (req, res) => {
 	try {
-		_.forEach(req.params, ((value, key) => req.params[key] = Number(value)));
-		let orders = await dbQuerys.getOrders(req.params);
+		let orders = await dbQuerys.updateOrder(req.params.orderId, req.body);
 		res.json(orders);
 	} catch (err) {
 		console.log(err);
 		res.status(404).send(err);
 	}
 });
-app.patch('/orders/:year/:period/:week', async (req, res) => {
-	try {
-		_.forEach(req.params, ((value, key) => req.params[key] = Number(value)));
-		let orders = await dbQuerys.updateOrder(req.params, req.body);
-		res.json(orders);
-	} catch (err) {
-		console.log(err);
-		res.status(404).send(err);
-	}
-});
-app.post('/orders/', async (req, res) => {
+app.post('/orders', async (req, res) => {
 	try {
 		let order = await dbQuerys.createOrder();
 		res.json(order);
