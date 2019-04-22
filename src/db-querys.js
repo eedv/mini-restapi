@@ -45,6 +45,7 @@ const createOrder = async () => {
 			week: week,
 			weekOfPeriod: getWeekOfPeriod(period, week),
 			config: await getConfig(),
+			invoiceSummary: {},
 			products: []
 		}
 		await db.orders.insertOne(order);
