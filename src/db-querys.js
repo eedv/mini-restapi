@@ -38,7 +38,7 @@ const createOrder = async () => {
 	if(canInsert) {
 		const order = {
 			name: 'Nuevo Pedido',
-			id: `${year}-${period}-${week}`,
+			id: `${year}-${period}-${getWeekOfPeriod(period, week)}`,
 			creationDate: new Date(),
 			year: year,
 			period: period,
