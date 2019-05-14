@@ -13,6 +13,6 @@ module.exports = {
 		return weekNo;
 	},
 	getFourWeekMonth(d = new Date()) {
-		return Math.ceil(this.getWeek(d) / 4);
+		return Math.ceil(this.getYearWeek(d) / 4);
 	}
 }
